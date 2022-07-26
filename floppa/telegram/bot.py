@@ -1,13 +1,12 @@
-from typing import Callable, Coroutine
+from typing import Callable, Coroutine, Concatenate, TypeVar, ParamSpec
 import datetime
 
-import aiogram
+import aiogram  # type: ignore
 
 from floppa.settings import Settings
 
 
-OnStartupReturnedCoroutineType = Coroutine[None, None, None]
-OnStartupCallableType = Callable[[aiogram.Dispatcher, ...], OnStartupReturnedCoroutineType]
+P = ParamSpec("P")
 
 
 class _Bot:
@@ -32,7 +31,7 @@ class _Bot:
     def startup_time(self) -> datetime.datetime:
         return self.__startup_time
 
-    def run(self, *, on_startup: OnStartupCallableType):
+    def run(self, *, on_startup: Callable[Concatenate[aiogram.Dispatcher, P], Coroutine[None, None, None]]) -> None:
         aiogram.executor.start_polling(self.__dispatcher, on_startup=on_startup, skip_updates=True)
 
 

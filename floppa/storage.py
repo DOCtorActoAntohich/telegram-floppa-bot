@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from motor.motor_asyncio import AsyncIOMotorClient
-from pymotyc import Engine as PymotycEngine, Collection
+from motor.motor_asyncio import AsyncIOMotorClient  # type: ignore
+from pymotyc import Engine as PymotycEngine, Collection  # type: ignore
 
 from floppa.settings import Settings
 
@@ -14,7 +14,7 @@ class WhatThe(BaseModel):
 
 @pymotyc_engine.database
 class Storage:
-    funny: Collection[WhatThe] = Collection()
+    funny: Collection[WhatThe]
 
 
 async def connect_to_database():
