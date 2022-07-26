@@ -16,9 +16,9 @@ services:
 
   mongo_db:
     container_name: ${MONGO_HOST}
-    image: 'mongo:4.2.21'
+    image: 'mongo:4.2.6'
     ports:
-      - '27017:27017'
+      - '27017'
     volumes:
       - ./storage/mongo:/data/db:rw
     environment:
