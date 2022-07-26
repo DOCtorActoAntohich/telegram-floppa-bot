@@ -1,15 +1,11 @@
 import os
-import asyncio
 import signal
 import logging
 
-from floppa.storage import Storage, WhatThe, connect_to_database
+import aiogram
 
-
-logging.basicConfig(
-    format='(%(asctime)s) [%(name)s] [%(levelname)s] - %(message)s',
-    level=logging.INFO
-)
+from floppa.storage import connect_to_database
+from floppa.telegram import floppa_bot
 
 
 def allow_insta_kill():
@@ -17,13 +13,23 @@ def allow_insta_kill():
     signal.signal(signal.SIGTERM, lambda *_: os.kill(os.getpid(), signal.SIGINT))
 
 
-async def main():
+@floppa_bot.dispatcher.message_handler()
+async def echo(message):
+    await message.reply(message.text)
+
+
+async def on_startup(dispatcher: aiogram.Dispatcher):
     await connect_to_database()
-    await Storage.funny.save(WhatThe(cost=0))
-    logger = logging.getLogger(__name__)
-    logger.critical("IT WORKS IT WORKS ? ?! ?! ?!? ! hehe")
+
+
+def main():
+    floppa_bot.run(on_startup=on_startup)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        format='(%(asctime)s) [%(name)s] [%(levelname)s] - %(message)s',
+        level=logging.INFO
+    )
     allow_insta_kill()
-    asyncio.run(main())
+    main()
