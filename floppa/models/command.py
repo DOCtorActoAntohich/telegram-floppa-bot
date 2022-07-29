@@ -39,12 +39,12 @@ class Command(BaseModel):
         yield from super().__get_validators__()
         yield cls.validate_command_name
 
-    def fits(self, chat_type: ChatType) -> bool:
-        if chat_type == ChatType.Any:
+    def fits(self, requested_type: ChatType) -> bool:
+        if requested_type == ChatType.Any:
             return True
         if self.chat_type == ChatType.Any:
             return True
-        return self.chat_type == chat_type
+        return self.chat_type == requested_type
 
     @property
     def formatted(self) -> str:
