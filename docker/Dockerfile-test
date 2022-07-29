@@ -10,14 +10,20 @@ RUN .venv/bin/python -m pip install --no-cache-dir -r ./requirements.txt
 RUN rm ./requirements.txt
 
 
-# Bot module.
+# Bot stuff.
 COPY ./floppa ./floppa
 COPY ./tests ./tests
 
 
 # root evil.
 RUN addgroup -S cats && adduser -S floppa -g cats
+
+# Change owner of work dir to allow for neat triks, and kill warnings.
+RUN chown floppa:cats /app
+
+# root evil, part 2.
 USER floppa
 
 
+# Let's go do some casual testing (and crash).
 ENTRYPOINT .venv/bin/python -m pytest tests/
