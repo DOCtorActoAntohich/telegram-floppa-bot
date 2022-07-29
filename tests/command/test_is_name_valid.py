@@ -31,7 +31,8 @@ def test_invalid_names():
         "Did you know that, unfortunately, you cannot do that?",
         "",
         " ",
-        "/kill" f"/kill{Settings}",
+        "/kill",
+        f"/kill{Settings}",
     ]
     for name in invalid_names:
         assert Command.is_malformed(name), (
