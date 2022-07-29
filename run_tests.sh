@@ -18,4 +18,6 @@ fi
 
 docker compose -f=docker-compose-test.yml down
 
+docker network prune -f
+
 exit 0
