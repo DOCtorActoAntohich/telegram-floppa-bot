@@ -9,8 +9,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# MyPy
+# Cache for modules (just in case).
 .mypy_cache
+.pytest_cache
 
 # Environments.
 .env
@@ -21,7 +22,6 @@ venv/
 # Logs.
 logs/
 *.log
-
 
 # Application runtime data.
 /storage/
