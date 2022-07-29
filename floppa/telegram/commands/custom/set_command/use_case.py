@@ -28,7 +28,7 @@ class SetCommandUseCase:
         if self.command_response is None:
             return SetCommandResponse.no_response_provided(self.command)
 
-        new_command = Command(self.command)
+        new_command = Command(name=self.command)
         if Command.is_malformed(new_command.name):
             return SetCommandResponse.malformed_command()
 
@@ -36,10 +36,14 @@ class SetCommandUseCase:
             return SetCommandResponse.builtin_command_override()
 
         chat = await self.chats.get(self.chat_id)
+        update: bool = chat is not None
         if chat is None:
             chat = Chat(chat_id=self.chat_id)
-        # chat.commands[new_command] = self.command_response
-        chat.set_command(new_command, self.command_response)
-        await self.chats.save(chat)
+
+        chat.commands.set(new_command, self.command_response)
+        if update:
+            await self.chats.update(chat)
+        else:
+            await self.chats.save(chat)
 
         return SetCommandResponse.command_updated(new_command)

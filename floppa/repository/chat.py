@@ -1,3 +1,5 @@
+from typing import Literal
+
 import pymotyc  # type: ignore
 
 from floppa.models import Chat
@@ -16,7 +18,7 @@ class ChatRepository:
         self.collection: pymotyc.Collection[Chat] = collection
 
     async def save(self, chat: Chat) -> Chat:
-        return await self.collection.save(chat, mode="update")
+        return await self.collection.save(chat)
 
     async def exists(self, chat_id: int) -> bool:
         try:
@@ -33,6 +35,15 @@ class ChatRepository:
 
     async def get_all(self) -> list[Chat]:
         return await self.collection.find({}, sort={Chat.chat_id: ASCENDING_ORDER})
+
+    async def update(self, chat: Chat) -> Chat | None:
+        try:
+            return await self.collection.update_one(
+                query={Chat.chat_id: chat.chat_id},
+                update={"$set": {Chat.commands: chat.commands}},
+            )
+        except pymotyc.errors.NotFound:
+            return None
 
     async def delete(self, chat_id: int) -> bool:
         try:

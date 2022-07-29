@@ -2,11 +2,11 @@ from floppa.models.command import ChatType, Command
 
 
 class ProtectedCommand:
-    start = Command("start", is_hidden=True)
-    help = Command("help")
+    start = Command(name="start", is_hidden=True)
+    help = Command(name="help")
 
-    set_command = Command("set_command", chat_type=ChatType.Group)
-    del_command = Command("del_command", chat_type=ChatType.Group)
+    set_command = Command(name="set_command", chat_type=ChatType.Group)
+    del_command = Command(name="del_command", chat_type=ChatType.Group)
 
     @classmethod
     def __extract_all(cls) -> list[Command]:

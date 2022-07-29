@@ -4,6 +4,7 @@ import re
 from enum import IntEnum, auto
 
 import aiogram  # type: ignore
+from pydantic import BaseModel, Field
 
 from floppa.settings import Settings
 
@@ -15,17 +16,17 @@ class ChatType(IntEnum):
     Group = auto()
 
 
-class Command:
+class Command(BaseModel):
+    name: str = Field(...)
+    chat_type: ChatType = Field(ChatType.Any)
+    is_hidden: bool = Field(False)
+
     def __init__(
-        self,
-        command: str,
-        *,
-        chat_type: ChatType = ChatType.Any,
-        is_hidden: bool = False,
+        self, *, name: str, chat_type: ChatType = ChatType.Any, is_hidden: bool = False
     ):
-        self.name = self.extract_name(command)
-        self.chat_type = chat_type
-        self.is_hidden = is_hidden
+        super().__init__(
+            name=self.extract_name(name), chat_type=chat_type, is_hidden=is_hidden
+        )
 
     def __eq__(self, other):
         return isinstance(other, Command) and self.name == other.name
@@ -35,6 +36,7 @@ class Command:
 
     @classmethod
     def __get_validators__(cls):
+        yield from super().__get_validators__()
         yield cls.validate_command_name
 
     def fits(self, chat_type: ChatType) -> bool:
@@ -54,18 +56,20 @@ class Command:
 
     @classmethod
     def extract_name(cls, command: str) -> str:
+        command = command.lower()
+
         if command.startswith("/"):
             command = command[1:]
 
-        alias_pos = command.find(Settings.bot.alias)
+        alias_pos = command.find(Settings.bot.alias.lower())
         if alias_pos >= 0:
             command = command[:alias_pos]
 
-        return command.lower()
+        return command
 
     @classmethod
     def regex(cls) -> str:
-        return r"[a-z0-9_]+"
+        return r"^[a-z0-9_]+$"
 
     @classmethod
     def is_malformed(cls, name: str) -> bool:
@@ -76,7 +80,7 @@ class Command:
         return not cls.is_malformed(name)
 
     @classmethod
-    def validate_command_name(cls, name: str) -> str:
-        if cls.is_valid(name):
-            return name
-        raise ValueError(f"Command name is invalid: {name}")
+    def validate_command_name(cls, command: Command) -> Command:
+        if cls.is_valid(command.name):
+            return command
+        raise ValueError(f"Command name is invalid: {command.name}")

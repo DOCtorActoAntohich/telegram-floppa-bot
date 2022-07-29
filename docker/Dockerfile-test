@@ -1,0 +1,23 @@
+FROM python:3.10-alpine
+WORKDIR /app
+
+
+# Environment.
+COPY ./docker/requirements.txt ./requirements.txt
+RUN python -m venv .venv
+RUN .venv/bin/python -m pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN .venv/bin/python -m pip install --no-cache-dir -r ./requirements.txt
+RUN rm ./requirements.txt
+
+
+# Bot module.
+COPY ./floppa ./floppa
+COPY ./tests ./tests
+
+
+# root evil.
+RUN addgroup -S cats && adduser -S floppa -g cats
+USER floppa
+
+
+ENTRYPOINT .venv/bin/python -m pytest tests/

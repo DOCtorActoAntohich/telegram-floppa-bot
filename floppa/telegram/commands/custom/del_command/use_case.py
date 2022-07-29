@@ -20,7 +20,7 @@ class DeleteCommandUseCase:
         if self.command_name is None:
             return DeleteCommandResponse.no_command_provided()
 
-        command = Command(self.command_name)
+        command = Command(name=self.command_name)
         if Command.is_malformed(command.name):
             return DeleteCommandResponse.malformed_command()
 
@@ -28,15 +28,18 @@ class DeleteCommandUseCase:
             return DeleteCommandResponse.builtin_command_delete(command)
 
         chat = await self.chats.get(self.chat_id)
+        update = chat is not None
         if chat is None:
             chat = Chat(chat_id=self.chat_id)
 
         try:
-            # chat.commands.pop(command)
-            chat.delete_command(command)
+            chat.commands.delete(command)
         except KeyError:
             return DeleteCommandResponse.no_such_command()
         finally:
-            await self.chats.save(chat)
+            if update:
+                await self.chats.update(chat)
+            else:
+                await self.chats.save(chat)
 
         return DeleteCommandResponse.command_deleted()

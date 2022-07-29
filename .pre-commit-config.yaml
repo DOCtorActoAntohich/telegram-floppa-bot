@@ -13,3 +13,10 @@ repos:
       - id: black
         args:
           - --line-length=88
+#  - repo: local
+#    hooks:
+#      - id: tests
+#        name: run_tests
+#        entry: sudo ./run_tests.sh
+#        language: python
+#        stages: [commit]
