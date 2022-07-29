@@ -1,4 +1,6 @@
-from pydantic import BaseModel, Field, PrivateAttr
+from __future__ import annotations
+
+from pydantic import BaseModel, Field
 
 from floppa.models.command import Command
 
@@ -13,6 +15,9 @@ class CustomCommand(BaseModel):
 
     def __str__(self):
         return f"{self.command.formatted}={{{self.response}}}"
+
+    def same_as(self, other_command: Command) -> bool:
+        return self.command == other_command
 
 
 class CustomCommandsList(BaseModel):
@@ -48,7 +53,7 @@ class CustomCommandsList(BaseModel):
 
     def index_of(self, command: Command) -> int | None:
         for i, stored_command in enumerate(self.custom_commands):
-            if stored_command == command:
+            if stored_command.same_as(command):
                 return i
         return None
 
