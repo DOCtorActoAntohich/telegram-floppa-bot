@@ -12,8 +12,6 @@ services:
       - .env
     networks:
       test_floppa_net:
-    #links:
-    #  - "mongo_db_tests:mongo_db"
 
   mongo_db_tests:
     image: 'mongo:4.2.6'
