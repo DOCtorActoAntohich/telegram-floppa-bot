@@ -1,6 +1,6 @@
 from floppa.models import ChatType, Chat, Command, ProtectedCommand
 from floppa.repository import ChatRepository
-from floppa.telegram.commands.custom.del_command.responses import DeleteCommandResponse
+from floppa.use_case.del_command.responses import DeleteCommandResponse
 
 
 def _extract_command(text: str | None) -> str | None:

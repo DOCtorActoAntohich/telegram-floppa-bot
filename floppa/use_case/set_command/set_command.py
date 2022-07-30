@@ -1,6 +1,6 @@
 from floppa.models import ChatType, Chat, Command, ProtectedCommand
 from floppa.repository import ChatRepository
-from floppa.telegram.commands.custom.set_command.responses import SetCommandResponse
+from floppa.use_case.set_command.responses import SetCommandResponse
 
 
 class SetCommandUseCase:

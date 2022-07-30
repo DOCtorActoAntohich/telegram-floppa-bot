@@ -2,7 +2,7 @@ from aiogram.types import Message  # type: ignore
 
 from floppa.models import ProtectedCommand
 from floppa.telegram import floppa_bot
-from floppa.telegram.commands.custom.del_command.use_case import DeleteCommandUseCase
+from floppa.use_case import DeleteCommandUseCase
 
 
 @floppa_bot.dispatcher.message_handler(ProtectedCommand.del_command.filter)
