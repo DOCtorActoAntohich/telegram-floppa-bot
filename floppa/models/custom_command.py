@@ -59,3 +59,6 @@ class CustomCommandsList(BaseModel):
 
     def exists(self, command: Command) -> bool:
         return self.index_of(command) is not None
+
+    def all(self) -> list[Command]:
+        return [c.command for c in self.custom_commands]
