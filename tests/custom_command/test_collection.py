@@ -1,4 +1,4 @@
-from floppa.models import Command, CustomCommandsList
+from floppa.models import ChatType, Command, CustomCommandsList
 
 
 def test_collection():
@@ -12,9 +12,9 @@ def test_collection():
     assert commands.index_of(Command(name="exist")) is 0
     assert commands.exists(Command(name="exist"))
 
-    commands.set(Command(name="one"), "1")
-    commands.set(Command(name="two"), "2")
-    commands.set(Command(name="three"), "3")
+    commands.set(Command(name="one", chat_type=ChatType.Any), "1")
+    commands.set(Command(name="two", chat_type=ChatType.Group), "2")
+    commands.set(Command(name="three", chat_type=ChatType.Private, is_hidden=True), "3")
 
     assert commands.index_of(Command(name="three")) == 3
     assert commands.index_of(Command(name="two")) == 2
