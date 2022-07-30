@@ -16,7 +16,7 @@ else
 fi
 
 
-docker compose -f=docker-compose-test.yml down
+docker compose -f=docker-compose-test.yml down -v
 
 docker network prune -f
 
