@@ -17,10 +17,7 @@ services:
 
   mongo_db_tests:
     image: 'mongo:4.2.6'
-    command: "--logpath=/dev/null"
     container_name: mongo_db_tests
-    logging:
-      driver: none
     ports:
       - '27017:21017'
     volumes:
