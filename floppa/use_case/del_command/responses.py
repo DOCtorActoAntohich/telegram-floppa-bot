@@ -15,7 +15,7 @@ class DeleteCommandResponse:
         return (
             f"Successfully deleted BUILT-IN command{command.formatted}.\n"
             f"Forever.\n"
-            f"For good.\n"
+            f"For good.\n\n"
             f"(jk lol, you can't)"
         )
 
