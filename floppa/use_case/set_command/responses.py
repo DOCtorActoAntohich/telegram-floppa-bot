@@ -11,7 +11,7 @@ class SetCommandResponse:
         return (
             "You should've told me how to respond to your command.\n"
             "Like this, check this out:\n"
-            f"`{ProtectedCommand.set_command.formatted} {new_name or '<command>'} <response>`"
+            f"{ProtectedCommand.set_command.formatted} {new_name or '<command>'} <response>"
         )
 
     @classmethod

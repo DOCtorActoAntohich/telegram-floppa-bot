@@ -6,9 +6,9 @@ class DecideCommandResponse:
             "Either in one line:\n"
             "`/decide <1> <2> <3>`\n\n"
             "Or one per line:\n"
-            "```/decide <0>\n"
+            "/decide <0>\n"
             "<1>\n"
-            "<2>`"
+            "<2>"
         )
 
     @classmethod
