@@ -10,3 +10,6 @@ from floppa.use_case.yes_no import YesNoUseCase
 from floppa.use_case.execute_command import ExecuteCustomCommandUseCase
 from floppa.use_case.del_command import DeleteCommandUseCase
 from floppa.use_case.set_command import SetCommandUseCase
+
+from floppa.use_case.regex_keyword_search import RegexKeywordSearchUseCase
+from floppa.use_case.validate_brackets import ValidateBracketsUseCase
