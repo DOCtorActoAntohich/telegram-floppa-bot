@@ -5,6 +5,12 @@ class ProtectedCommand:
     start = Command(name="start", is_hidden=True)
     help = Command(name="help")
 
+    get_number = Command(name="get_number")
+    new_number = Command(name="new_number")
+
+    yes_no = Command(name="yes_no")
+    decide = Command(name="decide")
+
     set_command = Command(name="set_command", chat_type=ChatType.Group)
     del_command = Command(name="del_command", chat_type=ChatType.Group)
 
