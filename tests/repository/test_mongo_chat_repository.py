@@ -8,32 +8,34 @@ from floppa.repository import ChatRepository
 from floppa.storage import Storage
 
 
-def random_id():
-    return random.randint(0, 2**32)
+@pytest.fixture(scope="session")
+def random_ids(request) -> list[int]:
+    amount = request.param
+    left = 0
+    right = 2**32
+    assert 1 <= amount < right, "Test with mistake :)"
+    return random.sample(range(left, right), amount)
 
 
+@pytest.mark.parametrize("random_ids", [5], indirect=["random_ids"])
 @pytest.mark.asyncio
-async def test_mongo_chat_repository():
+async def test_mongo_chat_repository(random_ids):
     await Storage.bind_to_database()
 
     chats = ChatRepository.create()
 
-    id_0 = random_id()
-    id_1 = random_id()
-    id_2 = random_id()
-    id_3 = random_id()
-    id_bad = random_id()
+    id_0, id_1, id_2, id_3, id_bad = random_ids
 
     empty_list = await chats.get_all()
     assert len(empty_list) == 0, "The collection must be empty"
 
-    zero_id_exists = await chats.exists(chat_id=id_0)
+    zero_id_exists = await chats.exists(id_0)
     assert not zero_id_exists, "The collection must be empty"
 
-    deleted_zero = await chats.delete(chat_id=id_0)
+    deleted_zero = await chats.delete(id_0)
     assert not deleted_zero, "The collection must be empty"
 
-    zero_none = await chats.get(chat_id=id_0)
+    zero_none = await chats.get(id_0)
     assert zero_none is None, "The collection must be empty"
 
     chat_negative = await chats.update(Chat(chat_id=id_bad))
@@ -49,10 +51,10 @@ async def test_mongo_chat_repository():
     chat_3 = await chats.save(Chat(chat_id=id_3))
     assert chat_3 is not None, "Copy of saved object should be returned"
 
-    chat_0 = await chats.get(chat_id=id_0)
-    chat_1 = await chats.get(chat_id=id_1)
-    chat_2 = await chats.get(chat_id=id_2)
-    chat_3 = await chats.get(chat_id=id_3)
+    chat_0 = await chats.get(id_0)
+    chat_1 = await chats.get(id_1)
+    chat_2 = await chats.get(id_2)
+    chat_3 = await chats.get(id_3)
     assert chat_0.chat_id == id_0
     assert chat_1.chat_id == id_1
     assert chat_2.chat_id == id_2
@@ -74,21 +76,21 @@ async def test_mongo_chat_repository():
     chat_0_copy.commands.delete(Command(name="zero"))
     await chats.update(chat_0_copy)
 
-    await chats.delete(chat_id=id_1)
-    await chats.delete(chat_id=id_2)
-    await chats.delete(chat_id=id_3)
+    await chats.delete(id_1)
+    await chats.delete(id_2)
+    await chats.delete(id_3)
     one_chat = await chats.get_all()
     assert len(one_chat) == 1, "There should be one chat left now"
 
-    chat_0_latest = await chats.get(chat_id=id_0)
+    chat_0_latest = await chats.get(id_0)
     index = chat_0_latest.commands.index_of(Command(name="zero"))
     assert index is None, "The command should be deleted by now"
 
-    zero_exists = await chats.exists(chat_id=id_0)
+    zero_exists = await chats.exists(id_0)
     assert zero_exists, "Chat with this ID must be in the collection"
 
-    deleted_zero = await chats.delete(chat_id=id_0)
+    deleted_zero = await chats.delete(id_0)
     assert deleted_zero, "Deletion should be successful"
 
-    zero_exists = await chats.exists(chat_id=id_0)
+    zero_exists = await chats.exists(id_0)
     assert not zero_exists, "Chat with this ID must be already deleted"
