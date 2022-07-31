@@ -20,7 +20,7 @@ class HelpUseCase:
         return HelpCommandResponse.private_chat(commands)
 
     async def _response_to_groups(self) -> str:
-        chat = await self.chats.get(chat_id=self.chat_id)
+        chat = await self.chats.get(self.chat_id)
         if chat is None:
             chat = await self.chats.save(Chat(chat_id=self.chat_id))
 

@@ -9,7 +9,7 @@ class ExecuteCustomCommandUseCase:
         self.chats = ChatRepository.create()
 
     async def execute(self) -> str | None:
-        chat = await self.chats.get(chat_id=self.chat_id)
+        chat = await self.chats.get(self.chat_id)
         try:
             response = chat.commands.get_response(self.command)
         except KeyError:
