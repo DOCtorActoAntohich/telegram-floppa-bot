@@ -1,4 +1,4 @@
-import aiogram.types
+import aiogram.types  # type: ignore
 
 from floppa.models import ChatType
 
