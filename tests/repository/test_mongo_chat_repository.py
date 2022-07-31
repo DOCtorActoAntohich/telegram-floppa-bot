@@ -5,7 +5,7 @@ from pymotyc.errors import NotFound  # type: ignore
 
 from floppa.models import Chat, ChatType, Command
 from floppa.repository import ChatRepository
-from floppa.storage import connect_to_database
+from floppa.storage import Storage
 
 
 def random_id():
@@ -14,7 +14,7 @@ def random_id():
 
 @pytest.mark.asyncio
 async def test_mongo_chat_repository():
-    await connect_to_database()
+    await Storage.bind_to_database()
 
     chats = ChatRepository.create()
 

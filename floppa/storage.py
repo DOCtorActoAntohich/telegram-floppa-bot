@@ -12,7 +12,12 @@ pymotyc_engine = PymotycEngine()
 class Storage:
     chats: Collection[Chat] = Collection(identity="chat_id")
 
+    @classmethod
+    async def bind_to_database(cls):
+        if cls.__connected:
+            return
+        motor = AsyncIOMotorClient(Settings.mongo.connection_url)
+        await pymotyc_engine.bind(motor=motor, inject_motyc_fields=True)
+        cls.__connected = True
 
-async def connect_to_database():
-    motor = AsyncIOMotorClient(Settings.mongo.connection_url)
-    await pymotyc_engine.bind(motor=motor, inject_motyc_fields=True)
+    __connected = False

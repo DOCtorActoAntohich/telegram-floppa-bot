@@ -4,7 +4,7 @@ import logging
 
 import aiogram  # type: ignore
 
-from floppa.storage import connect_to_database
+from floppa.storage import Storage
 from floppa.telegram import floppa_bot
 
 
@@ -14,7 +14,7 @@ def allow_insta_kill() -> None:
 
 
 async def on_startup(dispatcher: aiogram.Dispatcher) -> None:
-    await connect_to_database()
+    await Storage.bind_to_database()
 
 
 def main() -> None:
