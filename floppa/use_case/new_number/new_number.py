@@ -12,6 +12,7 @@ class NewNumberUseCase:
     def __init__(self, user_id: int):
         self.user_id = user_id
         self.users = UserRepository.create()
+        self.random_number: int | None = None
 
     async def execute(self) -> str:
         user = await self.users.get(self.user_id)
@@ -21,4 +22,5 @@ class NewNumberUseCase:
         user.random_number = random.randint(self.MIN, self.MAX)
         await self.users.update(user)
 
+        self.random_number = user.random_number
         return NewNumberResponse.new_number(user.random_number)
