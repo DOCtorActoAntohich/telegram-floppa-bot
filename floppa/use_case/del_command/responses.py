@@ -13,7 +13,7 @@ class DeleteCommandResponse:
     @classmethod
     def builtin_command_delete(cls, command: Command) -> str:
         return (
-            f"Successfully deleted BUILT-IN command{command.formatted}.\n"
+            f"Successfully deleted BUILT-IN command {command.formatted}.\n"
             f"Forever.\n"
             f"For good.\n\n"
             f"(jk lol, you can't)"
