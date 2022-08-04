@@ -4,6 +4,8 @@ from floppa.models import ChatType, Command, CustomCommandsList
 def test_collection():
     commands = CustomCommandsList()
 
+    assert len(commands) == 0
+
     assert commands.index_of(Command(name="non_existent")) is None
 
     assert not commands.exists(Command(name="exist"))
@@ -24,6 +26,8 @@ def test_collection():
     assert commands.get_response(Command(name="two")) == "2"
     assert commands.get_response(Command(name="three")) == "3"
     assert commands.get_response(Command(name="exist")) == "why do I have to exist"
+
+    assert len(commands) == 4
 
     commands.set(Command(name="exist"), "existing is fun, hehe")
     assert commands.get_response(Command(name="one")) == "1"

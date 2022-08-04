@@ -29,6 +29,9 @@ class CustomCommandsList(BaseModel):
             return "[]"
         return f"[\n{commands}\n]"
 
+    def __len__(self):
+        return len(self.custom_commands)
+
     def get_response(self, command: Command) -> str:
         index = self.index_of(command)
         if index is None:
