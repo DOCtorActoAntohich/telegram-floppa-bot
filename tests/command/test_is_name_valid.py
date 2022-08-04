@@ -15,7 +15,7 @@ def test_valid_names():
         "_ki11",
     ]
     for name in valid_names:
-        assert Command.is_valid(name), (
+        assert Command.is_name_valid(name), (
             f"Command name `{name}` should be Valid. "
             "All commands should consist of small latin letters, "
             "numbers, and underscores"
@@ -35,7 +35,7 @@ def test_invalid_names():
         f"/kill{Settings}",
     ]
     for name in invalid_names:
-        assert Command.is_malformed(name), (
+        assert Command.is_name_malformed(name), (
             f"Command name `{name}` should be Invalid. "
             "All commands should consist of small latin letters, "
             "numbers, and underscores"

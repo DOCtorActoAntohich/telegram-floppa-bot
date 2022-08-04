@@ -8,15 +8,6 @@ from floppa.repository import ChatRepository
 from floppa.storage import Storage
 
 
-@pytest.fixture(scope="session")
-def random_ids(request) -> list[int]:
-    amount = request.param
-    left = 0
-    right = 2**32
-    assert 1 <= amount < right, "Test with mistake :)"
-    return random.sample(range(left, right), amount)
-
-
 @pytest.mark.parametrize("random_ids", [5], indirect=["random_ids"])
 @pytest.mark.asyncio
 async def test_mongo_chat_repository(random_ids):
