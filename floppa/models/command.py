@@ -54,6 +54,12 @@ class Command(BaseModel):
     def filter(self) -> aiogram.dispatcher.filters.Command:
         return aiogram.dispatcher.filters.Command(self.name)
 
+    def is_valid(self):
+        return self.is_name_valid(self.name)
+
+    def is_malformed(self):
+        return self.is_name_malformed(self.name)
+
     @classmethod
     def extract_name(cls, command: str) -> str:
         command = command.lower()
@@ -72,15 +78,45 @@ class Command(BaseModel):
         return r"^[a-z0-9_]+$"
 
     @classmethod
-    def is_malformed(cls, name: str) -> bool:
+    def is_name_malformed(cls, name: str) -> bool:
         return re.match(cls.regex(), name) is None
 
     @classmethod
-    def is_valid(cls, name: str) -> bool:
-        return not cls.is_malformed(name)
+    def is_name_valid(cls, name: str) -> bool:
+        return not cls.is_name_malformed(name)
+
+    @classmethod
+    def parse(cls, text: str) -> tuple[Command | None, str | None]:
+        if not text.startswith("/"):
+            return None, None
+
+        command_name, *maybe_args = text.split(maxsplit=1)
+
+        args = maybe_args[0].strip() if maybe_args else None
+        if args == "":
+            args = None
+
+        command = cls(name=command_name)
+        if command.is_malformed():
+            return None, None
+
+        return command, args
+
+    @classmethod
+    def extract_command(cls, text: str) -> Command | None:
+        command, _ = cls.parse(text)
+        return command
+
+    @classmethod
+    def extract_args(cls, text: str) -> str | None:
+        command, args = cls.parse(text)
+        if command is None:
+            return None
+
+        return args
 
     @classmethod
     def validate_command_name(cls, command: Command) -> Command:
-        if cls.is_valid(command.name):
+        if command.is_valid():
             return command
         raise ValueError(f"Command name is invalid: {command.name}")

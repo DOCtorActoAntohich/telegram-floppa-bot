@@ -29,3 +29,11 @@ class ProtectedCommand:
             for command in cls.__extract_all()
             if command.fits(chat_type) and not command.is_hidden
         ]
+
+    @classmethod
+    def is_protected(cls, command: Command) -> bool:
+        commands = cls.__extract_all()
+        for protected_command in commands:
+            if command == protected_command:
+                return True
+        return False
