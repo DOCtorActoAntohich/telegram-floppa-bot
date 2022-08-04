@@ -31,6 +31,14 @@ def test_parse_big_space():
     assert args == "sPaCe EXploRATIOn", "Must have args"
 
 
+def test_multiline():
+    message = "/decide one two\nthree\n\n\nfour"
+    desired_args = "one two\nthree\n\n\nfour"
+    command, args = Command.parse(message)
+    assert command.name == "decide", "Must be a command"
+    assert args == desired_args, "Must handle multiline messages and keep EOL"
+
+
 def test_extract_command():
     white = Command.extract_command("/WhItE        sPaCe")
     echo = Command.extract_command("/echo")
