@@ -14,6 +14,8 @@ class ProtectedCommand:
     set_command = Command(name="set_command", chat_type=ChatType.Group)
     del_command = Command(name="del_command", chat_type=ChatType.Group)
 
+    github = Command(name="github", is_hidden=True)
+
     @classmethod
     def __extract_all(cls) -> list[Command]:
         return [
