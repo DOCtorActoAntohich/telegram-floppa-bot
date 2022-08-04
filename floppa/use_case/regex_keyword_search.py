@@ -10,16 +10,16 @@ class _Animation:
 class RegexKeywordSearchUseCase:
     _animations = [
         _Animation(
-            r"(/flop_issue)|(flop_issue)|(flop issue)",
+            r"(/flop_issue)|(flop_issue)|(flop issue)|(flop.+issue)",
             "https://tenor.com/view/diagnosis-issue-flop-flop-floppa-bingus-gif-22901732",
-        ),
-        _Animation(
-            r"(flop)|(шлеп)|(шлёп)",
-            "https://tenor.com/view/sam-moser-niluv-patel-shake-caracal-big-floppa-gif-20103660",
         ),
         _Animation(
             r"(cube)|(куб)",
             "https://tenor.com/view/floppa-me-when-definitely-gif-25266239",
+        ),
+        _Animation(
+            r"(flop)|(шлеп)|(шлёп)",
+            "https://tenor.com/view/sam-moser-niluv-patel-shake-caracal-big-floppa-gif-20103660",
         ),
     ]
 
@@ -28,6 +28,6 @@ class RegexKeywordSearchUseCase:
 
     async def execute(self) -> str | None:
         for animation in self._animations:
-            if re.match(animation.regex, self.text) is not None:
+            if re.search(animation.regex, self.text) is not None:
                 return animation.link
         return None
