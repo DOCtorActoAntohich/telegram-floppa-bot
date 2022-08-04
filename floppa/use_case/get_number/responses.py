@@ -5,7 +5,7 @@ class GetNumberResponse:
     @classmethod
     def no_random_number(cls) -> str:
         return (
-            f"You haven't set your number yet."
+            f"You haven't set your number yet. "
             f"Try {ProtectedCommand.new_number.formatted} first"
         )
 

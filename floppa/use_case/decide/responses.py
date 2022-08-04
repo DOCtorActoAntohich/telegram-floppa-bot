@@ -4,7 +4,7 @@ class DecideCommandResponse:
         return (
             "Then give me options to choose from!\n\n"
             "Either in one line:\n"
-            "`/decide <1> <2> <3>`\n\n"
+            "/decide <1> <2> <3>\n\n"
             "Or one per line:\n"
             "/decide <0>\n"
             "<1>\n"
@@ -13,4 +13,4 @@ class DecideCommandResponse:
 
     @classmethod
     def chosen(cls, one: str) -> str:
-        return "I'd choose:\n" f"{one}"
+        return "I would choose:\n" f"{one}"
