@@ -7,7 +7,7 @@ class _MongoSettings(BaseSettings):
     username: str = Field(..., env="MONGO_USERNAME")
     password: str = Field(..., env="MONGO_PASSWORD")
     host: str = Field("localhost", env="MONGO_HOST")
-    port: int = Field(..., env="MONGO_PORT")
+    port: int = Field(27017, env="MONGO_PORT")
 
     @property
     def connection_url(self) -> str:

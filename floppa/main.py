@@ -4,7 +4,7 @@ import logging
 
 import aiogram  # type: ignore
 
-from floppa.storage import connect_to_database
+from floppa.storage import Storage
 from floppa.telegram import floppa_bot
 
 
@@ -13,13 +13,8 @@ def allow_insta_kill() -> None:
     signal.signal(signal.SIGTERM, lambda *_: os.kill(os.getpid(), signal.SIGINT))
 
 
-@floppa_bot.dispatcher.message_handler()
-async def echo(message) -> None:
-    await message.reply(message.text)
-
-
 async def on_startup(dispatcher: aiogram.Dispatcher) -> None:
-    await connect_to_database()
+    await Storage.bind_to_database()
 
 
 def main() -> None:
@@ -28,8 +23,8 @@ def main() -> None:
 
 if __name__ == "__main__":
     logging.basicConfig(
-        format='(%(asctime)s) [%(name)s] [%(levelname)s] - %(message)s',
-        level=logging.INFO
+        format="(%(asctime)s) [%(name)s] [%(levelname)s] - %(message)s",
+        level=logging.INFO,
     )
     allow_insta_kill()
     main()
