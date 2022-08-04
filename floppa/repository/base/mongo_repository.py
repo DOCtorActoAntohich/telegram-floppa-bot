@@ -7,7 +7,6 @@ import pymotyc  # type: ignore
 
 from floppa.repository.base.repository_base import RepositoryBase
 
-
 ASCENDING_ORDER = 1
 
 MongoModel = TypeVar("MongoModel")
