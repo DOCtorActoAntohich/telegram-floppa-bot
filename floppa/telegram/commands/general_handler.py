@@ -34,7 +34,7 @@ def custom_command_use_case(message: Message) -> ExecuteCustomCommandUseCase | N
         return None
 
     command = Command(name=message.text)
-    if Command.is_malformed(command.name):
+    if command.is_malformed():
         return None
 
     return ExecuteCustomCommandUseCase(command, message.chat.id)

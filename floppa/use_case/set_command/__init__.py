@@ -1,1 +1,2 @@
 from floppa.use_case.set_command.set_command import SetCommandUseCase
+from floppa.use_case.set_command.states import SetCommandUseCaseState
