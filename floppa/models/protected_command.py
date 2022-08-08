@@ -10,6 +10,7 @@ class ProtectedCommand:
 
     yes_no = Command(name="yes_no")
     decide = Command(name="decide")
+    cat = Command(name="cat")
 
     set_command = Command(name="set_command", chat_type=ChatType.Group)
     del_command = Command(name="del_command", chat_type=ChatType.Group)

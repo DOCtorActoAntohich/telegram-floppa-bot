@@ -1,0 +1,1 @@
+from floppa.use_case.cat.get_cat_that_does_not_esist import GetCatThatDoesNotExist
