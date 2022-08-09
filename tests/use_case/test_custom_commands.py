@@ -43,7 +43,7 @@ async def execute_del_command(text: str, chat_id: int) -> DeleteCommandUseCase:
 async def execute_custom_command(
     text: str, chat_id: int
 ) -> tuple[ExecuteCustomCommandUseCase, str | None]:
-    command = Command.extract_command(text)
+    command = Command.parse_command(text)
     assert command is not None
 
     use_case = ExecuteCustomCommandUseCase(command, chat_id)
