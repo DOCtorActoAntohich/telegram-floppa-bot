@@ -16,7 +16,7 @@ services:
       - mongo_db_tests:${MONGO_HOST}
 
   mongo_db_tests:
-    image: 'mongo:4.2.6'
+    image: 'mongo'
     container_name: mongo_db_tests
     ports:
       - '27017:21017'
