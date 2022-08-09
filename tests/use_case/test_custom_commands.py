@@ -42,9 +42,10 @@ async def execute_del_command(text: str, chat_id: int) -> DeleteCommandUseCase:
 
 async def execute_custom_command(
     text: str, chat_id: int
-) -> tuple[ExecuteCustomCommandUseCase, str | None]:
-    command = Command.extract_command(text)
-    assert command is not None
+) -> tuple[ExecuteCustomCommandUseCase | None, str | None]:
+    command = Command.parse_command(text)
+    if command is None:
+        return None, None
 
     use_case = ExecuteCustomCommandUseCase(command, chat_id)
 
@@ -112,7 +113,13 @@ async def test_execute_command_failures(random_ids: list[int]):
 
     message = "/consume"
     use_case, response = await execute_custom_command(message, chat_id)
+    assert use_case is not None
     assert use_case.state == ExecuteCommandUseCaseState.CommandNotFound
+    assert response is None
+
+    message = "no command"
+    use_case, response = await execute_custom_command(message, chat_id)
+    assert use_case is None
     assert response is None
 
 
@@ -139,6 +146,10 @@ async def test_custom_commands(random_ids: list[int]):
     two_executed_b, two_response_b = await execute_custom_command(
         "/goodbye", bad_chat_id
     )
+    assert one_executed is not None
+    assert two_executed is not None
+    assert one_executed_b is not None
+    assert two_executed_b is not None
     assert one_executed.state == ExecuteCommandUseCaseState.Success
     assert two_executed.state == ExecuteCommandUseCaseState.Success
     assert one_executed_b.state == ExecuteCommandUseCaseState.Success
@@ -160,6 +171,8 @@ async def test_custom_commands(random_ids: list[int]):
     two_executed_b, two_response_b = await execute_custom_command(
         "/goodbye", bad_chat_id
     )
+    assert one_executed is not None
+    assert two_executed_b is not None
     assert one_executed.state == ExecuteCommandUseCaseState.Success
     assert two_executed_b.state == ExecuteCommandUseCaseState.Success
     assert one_response == "friend!!"
@@ -167,6 +180,8 @@ async def test_custom_commands(random_ids: list[int]):
 
     two_executed, two_response = await execute_custom_command("/goodbye", good_chat_id)
     one_executed_b, one_response_b = await execute_custom_command("/hello", bad_chat_id)
+    assert two_executed is not None
+    assert one_executed_b is not None
     assert two_executed.state == ExecuteCommandUseCaseState.CommandNotFound
     assert one_executed_b.state == ExecuteCommandUseCaseState.CommandNotFound
     assert two_response is None

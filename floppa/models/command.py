@@ -103,12 +103,12 @@ class Command(BaseModel):
         return command, args
 
     @classmethod
-    def extract_command(cls, text: str) -> Command | None:
+    def parse_command(cls, text: str) -> Command | None:
         command, _ = cls.parse(text)
         return command
 
     @classmethod
-    def extract_args(cls, text: str) -> str | None:
+    def parse_args(cls, text: str) -> str | None:
         command, args = cls.parse(text)
         if command is None:
             return None

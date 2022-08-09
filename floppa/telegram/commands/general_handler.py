@@ -33,8 +33,8 @@ def custom_command_use_case(message: Message) -> ExecuteCustomCommandUseCase | N
     if message_chat_type(message) != ChatType.Group:
         return None
 
-    command = Command(name=message.text)
-    if command.is_malformed():
+    command = Command.parse_command(message.text)
+    if command is None or command.is_malformed():
         return None
 
     return ExecuteCustomCommandUseCase(command, message.chat.id)

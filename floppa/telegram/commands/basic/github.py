@@ -8,5 +8,8 @@ from floppa.telegram import floppa_bot
 async def github(message: Message) -> None:
     await message.reply(
         "This is my source code:\n"
-        "https://github.com/DOCtorActoAntohich/telegram-floppa-bot"
+        "https://github.com/DOCtorActoAntohich/telegram-floppa-bot\n\n"
+        "You can contribute to this repository!\n"
+        "And maybe suggest features or report bugs by creating a new issue.\n\n"
+        "Let's make flop have no issue!"
     )

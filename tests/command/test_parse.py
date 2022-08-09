@@ -40,10 +40,10 @@ def test_multiline():
 
 
 def test_extract_command():
-    white = Command.extract_command("/WhItE        sPaCe")
-    echo = Command.extract_command("/echo")
-    text = Command.extract_command("text")
-    bad = Command.extract_command("/b[A]d")
+    white = Command.parse_command("/WhItE        sPaCe")
+    echo = Command.parse_command("/echo")
+    text = Command.parse_command("text")
+    bad = Command.parse_command("/b[A]d")
     assert white.name == "white"
     assert echo.name == "echo"
     assert text is None
@@ -51,11 +51,11 @@ def test_extract_command():
 
 
 def test_extract_args():
-    nothing = Command.extract_args("/delete")
-    words = Command.extract_args("/set_command ping @everyone")
-    text = Command.extract_args("plain text")
-    bad = Command.extract_args("/g[oO]d command here")
-    a = Command.extract_args("/c a")  # a
+    nothing = Command.parse_args("/delete")
+    words = Command.parse_args("/set_command ping @everyone")
+    text = Command.parse_args("plain text")
+    bad = Command.parse_args("/g[oO]d command here")
+    a = Command.parse_args("/c a")  # a
     assert nothing is None
     assert words == "ping @everyone"
     assert text is None
