@@ -23,7 +23,7 @@ async def handle_general_message(message: Message) -> None:
         await message.reply_animation(link)
         return
 
-    brackets_use_case = ValidateBracketsUseCase(message.text)
+    brackets_use_case = ValidateBracketsUseCase(message.from_user.id, message.text)
     response = await brackets_use_case.execute()
     if response is not None:
         await message.reply(response)

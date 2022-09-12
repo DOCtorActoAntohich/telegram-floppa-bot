@@ -17,6 +17,8 @@ class ProtectedCommand:
 
     github = Command(name="github", is_hidden=True)
 
+    toggle_brackets = Command(name="toggle_brackets")
+
     @classmethod
     def __extract_all(cls) -> list[Command]:
         return [
