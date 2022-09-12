@@ -6,3 +6,4 @@ import floppa.telegram.commands.basic.start
 import floppa.telegram.commands.basic.yes_no
 import floppa.telegram.commands.basic.cat
 import floppa.telegram.commands.basic.github
+import floppa.telegram.commands.basic.toggle_brackets

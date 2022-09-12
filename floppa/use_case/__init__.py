@@ -15,4 +15,6 @@ from floppa.use_case.del_command import DeleteCommandUseCase, DeleteCommandUseCa
 from floppa.use_case.set_command import SetCommandUseCase, SetCommandUseCaseState
 
 from floppa.use_case.regex_keyword_search import RegexKeywordSearchUseCase
+
+from floppa.use_case.toggle_brackets import ToggleBracketsUseCase
 from floppa.use_case.validate_brackets import ValidateBracketsUseCase
